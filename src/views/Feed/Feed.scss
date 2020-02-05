@@ -1,0 +1,52 @@
+@import 'variables.scss';
+
+.feed-item {
+    padding: $theme-spacing/2 0;
+    border: 2px solid transparentize($color: #fff, $amount: 0.5);
+    border-radius: 4px;
+    background: transparentize($color: #fff, $amount: 0.9);
+    margin-bottom: $theme-spacing/2;
+    margin-left: $theme-spacing/2;
+    margin-right: $theme-spacing/2;
+
+    h2 {
+        font-size: 1.8em;
+        text-align: center;
+    }
+}
+
+.feed-item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.feed-container {
+    display: block;
+    position: absolute;
+    top: $theme-spacing/2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+}
+
+.feed-item-avatar {
+    position: relative;
+    svg {
+        top: -8px;
+        right: -8px;
+        position: absolute;
+    }
+}
+
+.feed-item-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 $theme-spacing/2;
+    padding-top: $theme-spacing/2;
+    opacity: 0.8;
+    font-size: 0.65em;
+}

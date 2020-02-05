@@ -1,0 +1,29 @@
+@import 'variables.scss';
+
+.user-avatar {
+    display: inline-block;
+    text-align: center;
+    .user-avatar-photo {
+        display: inline-block;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3) inset;
+    }
+    .user-avatar-name {
+        padding-top: $theme-spacing/4;
+    }
+
+    .user-avatar-email {
+        padding-top: $theme-spacing/4;
+    }
+
+    &.highlight {
+        .user-avatar-photo {
+            box-shadow: 0 0 0 4px $pink inset;
+        }
+    }
+
+    &.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+}

@@ -1,0 +1,218 @@
+@import 'variables.scss';
+
+html {
+    height: 100%;
+}
+
+body {
+    background: $dark-blue;
+
+    position: relative;
+    margin: 0;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+        'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+// Avoid breaking layout due to Reach router's accesibility features
+// @see: https://github.com/reach/router/issues/63#issuecomment-428050999
+#root {
+    position: relative;
+    height: 100%;
+}
+
+div[role='group'][tabindex] {
+    flex: 1;
+    height: 100%;
+}
+
+#root > div[role='group'][tabindex] {
+    height: 100%;
+}
+
+.block {
+    display: block;
+}
+.inline-block {
+    display: inline-block;
+}
+.flex-start {
+    align-self: flex-start;
+}
+.flex-center {
+    align-self: center;
+}
+.flex-end {
+    align-self: flex-end;
+}
+
+// Defaults
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+pre,
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-Light.eot);
+    src: url(/gotham/GothamPro-Light.woff2) format('woff2'),
+        url(/gotham/GothamPro-Light.woff) format('woff'),
+        url(/gotham/GothamPro-Light.ttf) format('truetype'),
+        url(/gotham/GothamPro-Light.svg#GothamPro-Light) format('svg'),
+        url(/gotham/GothamPro-Light.eot?#iefix) format('embedded-opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-LightItalic.eot);
+    src: url(/gotham/GothamPro-LightItalic.woff2) format('woff2'),
+        url(/gotham/GothamPro-LightItalic.woff) format('woff'),
+        url(/gotham/GothamPro-LightItalic.ttf) format('truetype'),
+        url(/gotham/GothamPro-LightItalic.svg#GothamPro-LightItalic)
+            format('svg'),
+        url(/gotham/GothamPro-LightItalic.eot?#iefix)
+            format('embedded-opentype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro.eot);
+    src: url(/gotham/GothamPro.woff2) format('woff2'),
+        url(/gotham/GothamPro.woff) format('woff'),
+        url(/gotham/GothamPro.ttf) format('truetype'),
+        url(/gotham/GothamPro.svg#GothamPro) format('svg'),
+        url(/gotham/GothamPro.eot?#iefix) format('embedded-opentype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-Italic.eot);
+    src: url(/gotham/GothamPro-Italic.woff2) format('woff2'),
+        url(/gotham/GothamPro-Italic.woff) format('woff'),
+        url(/gotham/GothamPro-Italic.ttf) format('truetype'),
+        url(/gotham/GothamPro-Italic.svg#GothamPro-Italic) format('svg'),
+        url(/gotham/GothamPro-Italic.eot?#iefix) format('embedded-opentype');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-Medium.eot);
+    src: url(/gotham/GothamPro-Medium.woff2) format('woff2'),
+        url(/gotham/GothamPro-Medium.woff) format('woff'),
+        url(/gotham/GothamPro-Medium.ttf) format('truetype'),
+        url(/gotham/GothamPro-Medium.svg#GothamPro-Medium) format('svg'),
+        url(/gotham/GothamPro-Medium.eot?#iefix) format('embedded-opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-MediumItalic.eot);
+    src: url(/gotham/GothamPro-MediumItalic.woff2) format('woff2'),
+        url(/gotham/GothamPro-MediumItalic.woff) format('woff'),
+        url(/gotham/GothamPro-MediumItalic.ttf) format('truetype'),
+        url(/gotham/GothamPro-MediumItalic.svg#GothamPro-MediumItalic)
+            format('svg'),
+        url(/gotham/GothamPro-MediumItalic.eot?#iefix)
+            format('embedded-opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-Bold.eot);
+    src: url(/gotham/GothamPro-Bold.woff2) format('woff2'),
+        url(/gotham/GothamPro-Bold.woff) format('woff'),
+        url(/gotham/GothamPro-Bold.ttf) format('truetype'),
+        url(/gotham/GothamPro-Bold.svg#GothamPro-Bold) format('svg'),
+        url(/gotham/GothamPro-Bold.eot?#iefix) format('embedded-opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-BoldItalic.eot);
+    src: url(/gotham/GothamPro-BoldItalic.woff2) format('woff2'),
+        url(/gotham/GothamPro-BoldItalic.woff) format('woff'),
+        url(/gotham/GothamPro-BoldItalic.ttf) format('truetype'),
+        url(/gotham/GothamPro-BoldItalic.svg#GothamPro-BoldItalic) format('svg'),
+        url(/gotham/GothamPro-BoldItalic.eot?#iefix) format('embedded-opentype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-Black.eot);
+    src: url(/gotham/GothamPro-Black.woff2) format('woff2'),
+        url(/gotham/GothamPro-Black.woff) format('woff'),
+        url(/gotham/GothamPro-Black.ttf) format('truetype'),
+        url(/gotham/GothamPro-Black.svg#GothamPro-Black) format('svg'),
+        url(/gotham/GothamPro-Black.eot?#iefix) format('embedded-opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: GothamPro;
+    src: url(/gotham/GothamPro-BlackItalic.eot);
+    src: url(/gotham/GothamPro-BlackItalic.woff2) format('woff2'),
+        url(/gotham/GothamPro-BlackItalic.woff) format('woff'),
+        url(/gotham/GothamPro-BlackItalic.ttf) format('truetype'),
+        url(/gotham/GothamPro-BlackItalic.svg#GothamPro-BlackItalic)
+            format('svg'),
+        url(/gotham/GothamPro-BlackItalic.eot?#iefix)
+            format('embedded-opentype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+* {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+
+    box-sizing: border-box;
+    font-family: GothamPro !important;
+}
+
+.flex-column-100 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.text-center {
+    display: inline-block;
+    text-align: center;
+}

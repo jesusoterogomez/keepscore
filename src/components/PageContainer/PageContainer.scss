@@ -1,0 +1,11 @@
+@import 'variables.scss';
+
+.page-container {
+    position: relative;
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+    padding: $theme-spacing/2;
+    background: $darker-blue;
+    border-radius: 6px;
+}

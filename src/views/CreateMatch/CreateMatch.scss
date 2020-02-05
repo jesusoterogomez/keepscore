@@ -1,0 +1,122 @@
+@import 'variables.scss';
+
+.create-match {
+    padding-bottom: $theme-spacing/2;
+}
+
+.close-link {
+    opacity: 0.8;
+    padding-top: 0.7em;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.create-match {
+    .form-section-title {
+        margin-top: $theme-spacing/2;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+button.pink-button {
+    align-self: center;
+    justify-self: flex-start;
+    color: white;
+    background: $pink;
+    border-radius: 99em;
+    padding: 0.5em 2em;
+    text-transform: none;
+    font-weight: 400;
+
+    &:hover {
+        background: darken($pink, 10);
+    }
+
+    &:disabled {
+        opacity: 0.3;
+        color: white;
+    }
+}
+
+.team-list {
+    padding-top: $theme-spacing/2;
+}
+
+.team-list-item {
+    padding-bottom: $theme-spacing/2;
+    padding-right: $theme-spacing/2;
+}
+
+.scoreboard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: center;
+
+    .scoreboard-team {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: $theme-spacing/2;
+    }
+
+    .scoreboard-icon-wrapper {
+        border: 2px solid $blue;
+        border-radius: 4px;
+        padding: 2px 3px;
+        padding-bottom: 0px;
+        margin: 0 $theme-spacing/8;
+
+        * {
+            color: $blue !important;
+        }
+    }
+
+    .scoreboard-counter {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .scoreboard-team-members {
+        justify-content: space-between;
+        display: flex;
+        flex-direction: row;
+
+        .user-avatar {
+            padding: $theme-spacing/4;
+        }
+    }
+
+    input[type='number'] {
+        background: none;
+        outline: none;
+        border: none;
+        color: white;
+        backface-visibility: hidden;
+        text-align: center;
+        font-weight: bold;
+        font-size: 3em;
+        -moz-appearance: textfield;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.scoreboard-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

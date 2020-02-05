@@ -1,0 +1,15 @@
+@import 'variables.scss';
+
+.app-dashboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    background: $dark-blue;
+    color: white;
+}
+
+.app-dashboard-container {
+    padding: $theme-spacing/2;
+    flex: 2;
+}

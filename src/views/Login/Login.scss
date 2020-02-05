@@ -1,0 +1,31 @@
+.login {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: url('/login-background.jpg');
+    background-size: cover;
+    color: white;
+}
+
+.login-title {
+    font-size: 1.2em;
+    margin-bottom: 4em;
+    margin-top: 1em;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+button.login-button {
+    color: white;
+    background: #16bc65;
+    border-radius: 99em;
+    padding: 0.5em 2em;
+    text-transform: none;
+    font-weight: 400;
+
+    &:hover {
+        background: darken(#16bc65, 10);
+    }
+}

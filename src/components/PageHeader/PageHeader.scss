@@ -1,0 +1,25 @@
+@import 'variables.scss';
+
+.page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .page-header-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    img {
+        padding-right: $theme-spacing/3;
+    }
+
+    .page-title-name {
+        font-weight: 600;
+        font-size: 1.2em;
+        letter-spacing: 1px;
+    }
+
+    padding-bottom: $theme-spacing/1.5;
+}

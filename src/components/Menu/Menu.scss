@@ -1,0 +1,37 @@
+@import 'variables.scss';
+
+.bottom-menu {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    width: 100%;
+    background: $dark-blue;
+    justify-content: space-between;
+    padding: $theme-spacing;
+    padding-bottom: $theme-spacing/2;
+    padding-top: 0;
+
+    li {
+        position: relative;
+
+        a {
+            color: white;
+        }
+    }
+}
+
+.cta-button {
+    position: relative;
+    z-index: 1;
+}
+.cta-button-bg {
+    height: 40px;
+    width: 40px;
+    top: 10px;
+    left: 10px;
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    z-index: 0;
+}
