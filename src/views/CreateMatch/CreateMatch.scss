@@ -44,12 +44,21 @@ button.pink-button {
     }
 }
 
-.team-list {
+.team-list-container {
+    display: block;
     padding-top: $theme-spacing/2;
+    position: relative;
+}
+.team-list {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: relative;
 }
 
 .team-list-item {
-    padding-bottom: $theme-spacing/2;
+    display: inline-block;
     padding-right: $theme-spacing/2;
 }
 
@@ -72,15 +81,13 @@ button.pink-button {
         border-radius: 4px;
         padding: 2px 3px;
         padding-bottom: 0px;
-        margin: 0 $theme-spacing/8;
-
+        flex: 2;
         * {
             color: $blue !important;
         }
     }
 
     .scoreboard-counter {
-        justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: row;
@@ -105,7 +112,14 @@ button.pink-button {
         text-align: center;
         font-weight: bold;
         font-size: 3em;
+        width: 1.5em;
+        padding: 0 5px;
         -moz-appearance: textfield;
+
+        // Prevent IOS field zooming
+        &:active {
+            font-size: 3em;
+        }
     }
 
     input::-webkit-outer-spin-button,
@@ -119,4 +133,11 @@ button.pink-button {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.submit-match {
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin: $theme-spacing/4 0 !important;
 }

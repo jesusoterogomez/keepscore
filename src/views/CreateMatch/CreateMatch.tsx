@@ -8,11 +8,12 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import firebase, { User } from 'firebase';
 import UserAvatar from 'components/UserAvatar';
 import { Button } from '@material-ui/core';
-
+import lodash from 'lodash';
 import { ReactComponent as Attack } from 'resources/Attack.svg';
 import { ReactComponent as Defense } from 'resources/Defense.svg';
 
 import './CreateMatch.scss';
+import FirebaseUser from 'components/FirebaseUserAvatar';
 
 const getAvailableUsers = (
     snapshot:
@@ -89,7 +90,11 @@ const CreateMatch: React.FC = () => {
         return setOpponents([...opponents]);
     };
 
-    const users = getAvailableUsers(snapshot, currentUser as User);
+    const users = lodash.orderBy(
+        getAvailableUsers(snapshot, currentUser as User),
+        ['displayName'],
+        ['asc']
+    );
 
     let teamA = [
         {
@@ -148,8 +153,6 @@ const CreateMatch: React.FC = () => {
         setIsSaved(true);
     };
 
-    console.log(teamA);
-
     const canSubmit =
         teamA.length === 2 &&
         teamB.length === 2 &&
@@ -165,8 +168,9 @@ const CreateMatch: React.FC = () => {
             </PageTitle>
 
             <PageContainer>
-                {/* Form goes here */}
-                {/* <h3 className="form-section-title">What type of match was it?</h3>
+                <div className="scroll-container">
+                    {/* Form goes here */}
+                    {/* <h3 className="form-section-title">What type of match was it?</h3>
                 <RadioButtons
                     options={[
                         { label: '2 vs 2', value: '2vs2' },
@@ -175,251 +179,296 @@ const CreateMatch: React.FC = () => {
                     value={matchType}
                     onChange={handleMatchTypeChange}
                 /> */}
-                <h3 className="form-section-title">Who was your teammate?</h3>
-                <div className="team-list block">
-                    {users.map(user => (
-                        <div
-                            key={user.uid}
-                            className="team-list-item inline-block"
-                            onClick={() => handleTeammateClick(user)}
-                        >
-                            <UserAvatar
-                                user={user}
-                                className={
-                                    teammate === user.uid ? 'highlight' : ''
-                                }
-                            />
-                        </div>
-                    ))}
-                </div>
-                <h3 className="form-section-title">
-                    Who did you play against?
-                </h3>
-                <div className="team-list block">
-                    {users.map(user => (
-                        <div
-                            key={user.uid}
-                            className="team-list-item inline-block"
-                            onClick={() =>
-                                user.uid !== teammate
-                                    ? handleOponentClick(user)
-                                    : null
-                            }
-                        >
-                            <UserAvatar
-                                disabled={user.uid === teammate}
-                                user={user}
-                                className={
-                                    opponents.includes(user.uid)
-                                        ? 'highlight'
-                                        : ''
-                                }
-                            />
-                        </div>
-                    ))}
-                </div>
-                <h3 className="form-section-title">What was the score?</h3>
-                <div className="scoreboard">
-                    <div className="scoreboard-team">
-                        <div className="scoreboard-counter">
-                            <div
-                                className="scoreboard-icon-wrapper"
-                                onClick={() =>
-                                    teamScore > 0 &&
-                                    setTeamScore(validateScore(teamScore - 1))
-                                }
-                            >
-                                <Remove style={{ fontSize: 14 }} />
-                            </div>
-                            <input
-                                min={0}
-                                max={10}
-                                type="number"
-                                onFocus={event => event.target.select()}
-                                value={teamScore}
-                                onChange={e =>
-                                    setTeamScore(
-                                        validateScore(Number(e.target.value))
-                                    )
-                                }
-                            />
-                            <div
-                                className="scoreboard-icon-wrapper"
-                                onClick={() =>
-                                    teamScore < 10 &&
-                                    setTeamScore(validateScore(teamScore + 1))
-                                }
-                            >
-                                <Add style={{ fontSize: 14 }} />
-                            </div>
-                        </div>
-
-                        <div className="scoreboard-team-members">
-                            {teamA.map((u, index) => (
+                    <h3 className="form-section-title">
+                        Who was your teammate?
+                    </h3>
+                    <div className="team-list-container">
+                        <div className="team-list">
+                            {users.map(user => (
                                 <div
-                                    key={'teamA' + u.uid}
-                                    className="scoreboard-avatar"
+                                    key={user.uid}
+                                    className="team-list-item"
+                                    onClick={() => handleTeammateClick(user)}
                                 >
-                                    <UserAvatar user={u} />
-
-                                    {index === 0 && (
-                                        <Attack height="26px" width="26px" />
-                                    )}
-                                    {index === 1 && (
-                                        <Defense height="26px" width="26px" />
-                                    )}
-                                </div>
-                            ))}
-                            {teamA.length === 1 && (
-                                <div className="scoreboard-avatar">
-                                    <UserAvatar
-                                        key={'teamA-placeholder'}
-                                        isPlaceholder
-                                        user={{} as User}
+                                    <FirebaseUser
+                                        uid={user.uid}
+                                        className={
+                                            teammate === user.uid
+                                                ? 'highlight'
+                                                : ''
+                                        }
                                     />
-                                    <Defense height="26px" width="26px" />
-                                </div>
-                            )}
-                        </div>
-                        <Button
-                            onClick={() => setFlipTeamA(!flipTeamA)}
-                            disabled={teamA.length !== 2}
-                            variant="outlined"
-                            style={{
-                                opacity: teamA.length !== 2 ? 0.3 : 1,
-                                color: 'white',
-                                textTransform: 'none',
-                                borderColor: 'white',
-                                marginTop: '1.5em',
-                                padding: '0.2em 1em',
-                            }}
-                        >
-                            Swap&nbsp;
-                            <SyncAlt
-                                style={{
-                                    fontSize: 14,
-                                }}
-                            />
-                        </Button>
-                    </div>
-
-                    <div className="scoreboard-team">
-                        <div className="scoreboard-counter">
-                            <div
-                                className="scoreboard-icon-wrapper"
-                                onClick={() =>
-                                    opponentsScore > 0 &&
-                                    setOpponentsScore(
-                                        validateScore(opponentsScore - 1)
-                                    )
-                                }
-                            >
-                                <Remove style={{ fontSize: 14 }} />
-                            </div>
-                            <input
-                                min={0}
-                                max={10}
-                                type="number"
-                                onFocus={event => event.target.select()}
-                                value={opponentsScore}
-                                onChange={e =>
-                                    setOpponentsScore(
-                                        validateScore(Number(e.target.value))
-                                    )
-                                }
-                            />
-                            <div
-                                className="scoreboard-icon-wrapper"
-                                onClick={() =>
-                                    opponentsScore < 10 &&
-                                    setOpponentsScore(
-                                        validateScore(opponentsScore + 1)
-                                    )
-                                }
-                            >
-                                <Add style={{ fontSize: 14 }} />
-                            </div>
-                        </div>
-
-                        <div className="scoreboard-team-members">
-                            {teamB.map((u, index) => (
-                                <div
-                                    className="scoreboard-avatar"
-                                    key={'teamB' + u.uid}
-                                >
-                                    <UserAvatar user={u} />
-                                    {index === 0 && (
-                                        <Attack height="26px" width="26px" />
-                                    )}
-                                    {index === 1 && (
-                                        <Defense height="26px" width="26px" />
-                                    )}
                                 </div>
                             ))}
-                            {teamB.length === 0 && (
-                                <>
-                                    <div className="scoreboard-avatar">
+                        </div>
+                    </div>
+                    <h3 className="form-section-title">
+                        Who did you play against?
+                    </h3>
+                    <div className="team-list-container">
+                        <div className="team-list">
+                            {users.map(user => (
+                                <div
+                                    key={user.uid}
+                                    className="team-list-item inline-block"
+                                    onClick={() =>
+                                        user.uid !== teammate
+                                            ? handleOponentClick(user)
+                                            : null
+                                    }
+                                >
+                                    <FirebaseUser
+                                        uid={user.uid}
+                                        disabled={user.uid === teammate}
+                                        className={
+                                            opponents.includes(user.uid)
+                                                ? 'highlight'
+                                                : ''
+                                        }
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <h3 className="form-section-title">What was the score?</h3>
+                    <div className="scoreboard">
+                        <div className="scoreboard-team">
+                            <div className="scoreboard-counter">
+                                <div
+                                    className="scoreboard-icon-wrapper"
+                                    onClick={() =>
+                                        teamScore > 0 &&
+                                        setTeamScore(
+                                            validateScore(teamScore - 1)
+                                        )
+                                    }
+                                >
+                                    <Remove style={{ fontSize: 14 }} />
+                                </div>
+                                <input
+                                    min={0}
+                                    max={10}
+                                    pattern="\\d*"
+                                    type="number"
+                                    onFocus={event => event.target.select()}
+                                    value={teamScore}
+                                    onChange={e =>
+                                        setTeamScore(
+                                            validateScore(
+                                                Number(e.target.value)
+                                            )
+                                        )
+                                    }
+                                />
+                                <div
+                                    className="scoreboard-icon-wrapper"
+                                    onClick={() =>
+                                        teamScore < 10 &&
+                                        setTeamScore(
+                                            validateScore(teamScore + 1)
+                                        )
+                                    }
+                                >
+                                    <Add style={{ fontSize: 14 }} />
+                                </div>
+                            </div>
+
+                            <div className="scoreboard-team-members">
+                                {teamA.map((u, index) => (
+                                    <div
+                                        key={'teamA' + u.uid}
+                                        className="scoreboard-avatar"
+                                    >
                                         <UserAvatar
-                                            key={'teamB-placeholder-1'}
-                                            isPlaceholder
-                                            user={{} as User}
+                                            user={u}
+                                            showName
+                                            firstName
                                         />
-                                        <Attack height="26px" width="26px" />
+
+                                        {index === 0 && (
+                                            <Attack
+                                                height="26px"
+                                                width="26px"
+                                            />
+                                        )}
+                                        {index === 1 && (
+                                            <Defense
+                                                height="26px"
+                                                width="26px"
+                                            />
+                                        )}
                                     </div>
+                                ))}
+                                {teamA.length === 1 && (
                                     <div className="scoreboard-avatar">
                                         <UserAvatar
-                                            key={'teamB-placeholder-2'}
+                                            key={'teamA-placeholder'}
                                             isPlaceholder
+                                            showName
                                             user={{} as User}
                                         />
                                         <Defense height="26px" width="26px" />
                                     </div>
-                                </>
-                            )}
-                            {teamB.length === 1 && (
-                                <div className="scoreboard-avatar">
-                                    <UserAvatar
-                                        key={'teamB-placeholder-3'}
-                                        isPlaceholder
-                                        user={{} as User}
-                                    />
-                                    <Defense height="26px" width="26px" />
-                                </div>
-                            )}
-                        </div>
-                        <Button
-                            onClick={() => setFlipTeamB(!flipTeamB)}
-                            disabled={teamB.length !== 2}
-                            variant="outlined"
-                            style={{
-                                opacity: teamB.length !== 2 ? 0.3 : 1,
-                                color: 'white',
-                                borderColor: 'white',
-                                padding: '0.2em 1em',
-                                marginTop: '1.5em',
-                                textTransform: 'none',
-                            }}
-                        >
-                            Swap&nbsp;
-                            <SyncAlt
+                                )}
+                            </div>
+                            <Button
+                                onClick={() => setFlipTeamA(!flipTeamA)}
+                                disabled={teamA.length !== 2}
+                                variant="outlined"
                                 style={{
-                                    fontSize: 14,
+                                    opacity: teamA.length !== 2 ? 0.3 : 1,
+                                    color: 'white',
+                                    textTransform: 'none',
+                                    borderColor: 'white',
+                                    marginTop: '1.5em',
+                                    padding: '0.2em 1em',
                                 }}
-                            />
+                            >
+                                Swap&nbsp;
+                                <SyncAlt
+                                    style={{
+                                        fontSize: 14,
+                                    }}
+                                />
+                            </Button>
+                        </div>
+
+                        <div className="scoreboard-team">
+                            <div className="scoreboard-counter">
+                                <div
+                                    className="scoreboard-icon-wrapper"
+                                    onClick={() =>
+                                        opponentsScore > 0 &&
+                                        setOpponentsScore(
+                                            validateScore(opponentsScore - 1)
+                                        )
+                                    }
+                                >
+                                    <Remove style={{ fontSize: 14 }} />
+                                </div>
+                                <input
+                                    min={0}
+                                    max={10}
+                                    step={1}
+                                    type="number"
+                                    pattern="\\d*"
+                                    onFocus={event => event.target.select()}
+                                    value={opponentsScore}
+                                    onChange={e =>
+                                        setOpponentsScore(
+                                            validateScore(
+                                                Number(e.target.value)
+                                            )
+                                        )
+                                    }
+                                />
+                                <div
+                                    className="scoreboard-icon-wrapper"
+                                    onClick={() =>
+                                        opponentsScore < 10 &&
+                                        setOpponentsScore(
+                                            validateScore(opponentsScore + 1)
+                                        )
+                                    }
+                                >
+                                    <Add style={{ fontSize: 14 }} />
+                                </div>
+                            </div>
+
+                            <div className="scoreboard-team-members">
+                                {teamB.map((u, index) => (
+                                    <div
+                                        className="scoreboard-avatar"
+                                        key={'teamB' + u.uid}
+                                    >
+                                        <FirebaseUser uid={u.uid} />
+                                        {index === 0 && (
+                                            <Attack
+                                                height="26px"
+                                                width="26px"
+                                            />
+                                        )}
+                                        {index === 1 && (
+                                            <Defense
+                                                height="26px"
+                                                width="26px"
+                                            />
+                                        )}
+                                    </div>
+                                ))}
+                                {teamB.length === 0 && (
+                                    <>
+                                        <div className="scoreboard-avatar">
+                                            <UserAvatar
+                                                key={'teamB-placeholder-1'}
+                                                isPlaceholder
+                                                showName
+                                                user={{} as User}
+                                            />
+                                            <Attack
+                                                height="26px"
+                                                width="26px"
+                                            />
+                                        </div>
+                                        <div className="scoreboard-avatar">
+                                            <UserAvatar
+                                                key={'teamB-placeholder-2'}
+                                                isPlaceholder
+                                                showName
+                                                user={{} as User}
+                                            />
+                                            <Defense
+                                                height="26px"
+                                                width="26px"
+                                            />
+                                        </div>
+                                    </>
+                                )}
+                                {teamB.length === 1 && (
+                                    <div className="scoreboard-avatar">
+                                        <UserAvatar
+                                            key={'teamB-placeholder-3'}
+                                            isPlaceholder
+                                            showName
+                                            user={{} as User}
+                                        />
+                                        <Defense height="26px" width="26px" />
+                                    </div>
+                                )}
+                            </div>
+                            <Button
+                                onClick={() => setFlipTeamB(!flipTeamB)}
+                                disabled={teamB.length !== 2}
+                                variant="outlined"
+                                style={{
+                                    opacity: teamB.length !== 2 ? 0.3 : 1,
+                                    color: 'white',
+                                    borderColor: 'white',
+                                    padding: '0.2em 1em',
+                                    marginTop: '1.5em',
+                                    textTransform: 'none',
+                                }}
+                            >
+                                Swap&nbsp;
+                                <SyncAlt
+                                    style={{
+                                        fontSize: 14,
+                                    }}
+                                />
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="submit-match">
+                        <Button
+                            disabled={!canSubmit}
+                            className="pink-button"
+                            onClick={saveMatchResults}
+                        >
+                            Save match results
+                            <Add />
                         </Button>
                     </div>
                 </div>
-
-                <br />
-
-                <Button
-                    disabled={!canSubmit}
-                    className="pink-button"
-                    onClick={saveMatchResults}
-                >
-                    Save match results
-                    <Add />
-                </Button>
             </PageContainer>
         </div>
     );

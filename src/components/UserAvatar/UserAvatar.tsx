@@ -12,6 +12,7 @@ type Props = {
     icon?: any;
     disabled?: boolean;
     isPlaceholder?: boolean;
+    firstName?: boolean;
 };
 
 const UserAvatar: React.FC<Props> = props => {
@@ -20,7 +21,7 @@ const UserAvatar: React.FC<Props> = props => {
     const user = props.isPlaceholder
         ? ({
               photoURL: UserPlaceholder,
-              displayName: '',
+              displayName: '- -',
               email: '',
           } as User)
         : props.user;
@@ -35,6 +36,7 @@ const UserAvatar: React.FC<Props> = props => {
             {user.photoURL && (
                 <div
                     className="user-avatar-photo"
+                    key={user.photoURL}
                     style={{
                         height: size + 'px',
                         width: size + 'px',
@@ -44,7 +46,11 @@ const UserAvatar: React.FC<Props> = props => {
                 ></div>
             )}
             {props.showName && (
-                <div className="user-avatar-name">{user.displayName}</div>
+                <div className="user-avatar-name">
+                    {props.firstName
+                        ? user.displayName?.split(' ')[0]
+                        : user.displayName}
+                </div>
             )}
             {props.showEmail && (
                 <div className="user-avatar-email">{user.email}</div>

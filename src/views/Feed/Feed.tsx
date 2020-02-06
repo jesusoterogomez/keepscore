@@ -3,13 +3,13 @@ import PageHeader from 'components/PageHeader';
 import PageContainer from 'components/PageContainer';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import firebase, { User, firestore } from 'firebase';
-import UserAvatar from 'components/UserAvatar';
 import { ReactComponent as Attack } from 'resources/Attack.svg';
 import { ReactComponent as Defense } from 'resources/Defense.svg';
 import moment from 'moment';
 
 import './Feed.scss';
 import Loader from 'components/Loader';
+import FirebaseUser from 'components/FirebaseUserAvatar';
 
 type Match = {
     createdAt: firestore.Timestamp;
@@ -31,11 +31,11 @@ const renderMatches = (matches: Match[]) => {
         <div key={key} className="feed-item">
             <div className="feed-item-container">
                 <div className="feed-item-avatar">
-                    <UserAvatar size={50} user={match.teams[0].attack} />
+                    <FirebaseUser size={50} uid={match.teams[0].attack.uid} />
                     <Attack height="22px" width="22px" />
                 </div>
                 <div className="feed-item-avatar">
-                    <UserAvatar size={50} user={match.teams[0].defense} />
+                    <FirebaseUser size={50} uid={match.teams[0].defense.uid} />
                     <Defense height="22px" width="22px" />
                 </div>
 
@@ -44,11 +44,11 @@ const renderMatches = (matches: Match[]) => {
                 </h2>
 
                 <div className="feed-item-avatar">
-                    <UserAvatar size={50} user={match.teams[1].attack} />
+                    <FirebaseUser size={50} uid={match.teams[1].attack.uid} />
                     <Attack height="22px" width="22px" />
                 </div>
                 <div className="feed-item-avatar">
-                    <UserAvatar size={50} user={match.teams[1].defense} />
+                    <FirebaseUser size={50} uid={match.teams[0].defense.uid} />
                     <Defense height="22px" width="22px" />
                 </div>
             </div>

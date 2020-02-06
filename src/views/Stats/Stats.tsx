@@ -31,6 +31,9 @@ const renderStats = (stats: Stats[]) => {
     const { matches } = lodash.orderBy(stats, ['matches'], ['desc'])[0];
     const mostMatches = stats.filter(s => s.matches === matches);
 
+    const { loses } = lodash.orderBy(stats, ['matches'], ['desc'])[0];
+    const mostLoses = stats.filter(s => s.matches === matches);
+
     return (
         <div>
             <h1>Most wins ({wins})</h1>
@@ -45,10 +48,21 @@ const renderStats = (stats: Stats[]) => {
             <br />
             <br />
 
-            <h1>Most matches played ({matches})</h1>
-            <br />
+            <h1>Matches played ({matches})</h1>
             <div>
                 {mostMatches.map(u => (
+                    <span key={u.uid} style={{ padding: '1em' }}>
+                        <FirebaseUser uid={u.uid} />
+                    </span>
+                ))}
+            </div>
+
+            <br />
+            <br />
+            <h1>Biggest loser ({loses})</h1>
+            <br />
+            <div>
+                {mostLoses.map(u => (
                     <span key={u.uid} style={{ padding: '1em' }}>
                         <FirebaseUser uid={u.uid} />
                     </span>

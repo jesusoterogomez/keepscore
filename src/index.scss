@@ -1,12 +1,13 @@
 @import 'variables.scss';
 
 html {
+    overflow: hidden;
     height: 100%;
 }
 
 body {
     background: $dark-blue;
-
+    overflow: hidden;
     position: relative;
     margin: 0;
     height: 100%;
@@ -195,6 +196,9 @@ ul {
 }
 
 * {
+    // Disable double tap to zoom android/ios
+    touch-action: manipulation;
+
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -208,6 +212,7 @@ ul {
 
 .flex-column-100 {
     display: flex;
+    overflow: hidden;
     flex-direction: column;
     height: 100%;
 }
@@ -215,4 +220,16 @@ ul {
 .text-center {
     display: inline-block;
     text-align: center;
+}
+
+.scroll-container {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    padding: $theme-spacing/2;
+    overscroll-behavior-y: contain;
 }

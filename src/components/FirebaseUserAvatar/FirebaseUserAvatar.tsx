@@ -6,7 +6,7 @@ import { User } from 'firebase';
 
 type Props = {
     uid: string;
-};
+} & any;
 
 const FirebaseUser: React.FC<Props> = props => {
     const query = firebase
@@ -17,10 +17,18 @@ const FirebaseUser: React.FC<Props> = props => {
     const [data, isLoading] = useDocumentData(query);
 
     if (isLoading) {
-        return null;
+        return (
+            <UserAvatar
+                user={{} as User}
+                showName
+                firstName
+                isPlaceholder
+                {...props}
+            />
+        );
     }
 
-    return <UserAvatar user={data as User} showName />;
+    return <UserAvatar user={data as User} showName firstName {...props} />;
 };
 
 export default FirebaseUser;
