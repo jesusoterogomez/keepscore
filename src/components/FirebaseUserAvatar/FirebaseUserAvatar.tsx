@@ -23,12 +23,21 @@ const FirebaseUser: React.FC<Props> = props => {
                 showName
                 firstName
                 isPlaceholder
+                isLoading={true}
                 {...props}
             />
         );
     }
 
-    return <UserAvatar user={data as User} showName firstName {...props} />;
+    return (
+        <UserAvatar
+            user={data as User}
+            // isLoading={true}
+            showName
+            firstName
+            {...props}
+        />
+    );
 };
 
 export default FirebaseUser;

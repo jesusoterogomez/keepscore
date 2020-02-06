@@ -14,6 +14,7 @@ import AppDashboard, { AppDashboardWithMenu } from 'views/AppDashboard';
 import Feed from 'views/Feed';
 import CreateMatch from 'views/CreateMatch';
 import Profile from 'views/Profile';
+import Settings from 'views/Settings';
 import Stats from 'views/Stats';
 import Login from 'views/Login';
 
@@ -50,6 +51,7 @@ const routes = (
             <FeedRoute path="/" />
             <Profile path="/profile" />
             <Stats path="/stats" />
+            <Settings path="/settings" />
         </PrivateRoutes>
 
         <CreateMatchRoute path="/new" />

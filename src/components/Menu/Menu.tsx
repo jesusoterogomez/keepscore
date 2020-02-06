@@ -8,61 +8,66 @@ import {
     AddCircle,
 } from '@material-ui/icons';
 import './Menu.scss';
+import { Button } from '@material-ui/core';
+
+const MENU_ITEMS = [
+    {
+        to: '/',
+        type: 'link',
+        Icon: Home,
+    },
+    {
+        to: 'stats',
+        type: 'link',
+        Icon: BarChart,
+    },
+    {
+        to: 'new',
+        type: 'cta',
+        Icon: AddCircle,
+    },
+    {
+        to: 'profile',
+        type: 'link',
+        Icon: Person,
+    },
+    {
+        to: 'settings',
+        type: 'link',
+        Icon: Settings,
+    },
+];
 
 const Menu: React.FC = () => {
     return (
         <ul className="bottom-menu">
-            <li>
-                <Link
-                    to="/"
-                    getProps={({ isCurrent }) => ({
-                        className: isCurrent ? 'active' : '',
-                    })}
-                >
-                    <Home style={{ fontSize: 26 }} />
-                </Link>
-            </li>
-            <li>
-                <Link
-                    to="stats"
-                    getProps={({ isCurrent }) => ({
-                        className: isCurrent ? 'active' : '',
-                    })}
-                >
-                    <BarChart style={{ fontSize: 26 }} />
-                </Link>
-            </li>
-            <li>
-                <Link to="new">
-                    <>
-                        <AddCircle
-                            className="cta-button"
-                            style={{ fontSize: 60, color: '#ff6074' }}
-                        />
-                        <div className="cta-button-bg"></div>
-                    </>
-                </Link>
-            </li>
-            <li>
-                <Link
-                    to="profile"
-                    getProps={({ isCurrent }) => ({
-                        className: isCurrent ? 'active' : '',
-                    })}
-                >
-                    <Person style={{ fontSize: 26 }} />
-                </Link>
-            </li>
-            <li>
-                <Link
-                    to="profile"
-                    getProps={({ isCurrent }) => ({
-                        className: isCurrent ? 'active' : '',
-                    })}
-                >
-                    <Settings style={{ fontSize: 26 }} />
-                </Link>
-            </li>
+            {MENU_ITEMS.map((item, key) => (
+                <li key={key}>
+                    {item.type === 'link' && (
+                        <Button>
+                            <Link
+                                to={item.to}
+                                getProps={({ isCurrent }) => ({
+                                    className: isCurrent ? 'active' : '',
+                                })}
+                            >
+                                <item.Icon style={{ fontSize: 26 }} />
+                            </Link>
+                        </Button>
+                    )}
+                    {item.type === 'cta' && (
+                        <Link to={item.to}>
+                            <>
+                                <item.Icon
+                                    className="cta-button"
+                                    style={{ fontSize: 60, color: '#ff6074' }}
+                                />
+                                <div className="cta-button-bg"></div>
+                            </>
+                        </Link>
+                    )}
+                </li>
+            ))}
         </ul>
     );
 };

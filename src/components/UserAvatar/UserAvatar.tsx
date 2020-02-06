@@ -13,6 +13,7 @@ type Props = {
     disabled?: boolean;
     isPlaceholder?: boolean;
     firstName?: boolean;
+    isLoading?: boolean;
 };
 
 const UserAvatar: React.FC<Props> = props => {
@@ -36,14 +37,22 @@ const UserAvatar: React.FC<Props> = props => {
             {user.photoURL && (
                 <div
                     className="user-avatar-photo"
-                    key={user.photoURL}
                     style={{
                         height: size + 'px',
                         width: size + 'px',
-                        background: `url("${user.photoURL}")`,
-                        backgroundSize: 'cover',
+                        background: !props.isLoading
+                            ? `url("${user.photoURL}")`
+                            : 'none',
+                        backgroundSize: !props.isLoading ? 'cover' : '',
                     }}
-                ></div>
+                >
+                    <div
+                        className={
+                            'user-avatar-photo-loading ' +
+                            (props.isLoading ? 'active' : '')
+                        }
+                    />
+                </div>
             )}
             {props.showName && (
                 <div className="user-avatar-name">

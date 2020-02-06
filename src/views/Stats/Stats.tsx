@@ -8,6 +8,8 @@ import Loader from 'components/Loader';
 import lodash from 'lodash';
 import './Stats.scss';
 import FirebaseUser from 'components/FirebaseUserAvatar';
+//@ts-ignore
+import Fade from 'react-reveal/Fade';
 
 type Props = RouteComponentProps;
 
@@ -86,15 +88,6 @@ const renderStats = (stats: Stats[]) => {
         .slice(0, 3)
         .map(i => winsGrouped[i]);
 
-    console.log(
-        winsGrouped,
-        lodash.sortedUniq(Object.keys(winsGrouped)).reverse(),
-        lodash
-            .sortedUniq(Object.keys(winsGrouped))
-            .reverse()
-            .slice(0, 3)
-    );
-
     const matchesGrouped = lodash.groupBy(stats, 'matches');
     const matches = lodash
         .sortedUniq(Object.keys(matchesGrouped))
@@ -111,75 +104,85 @@ const renderStats = (stats: Stats[]) => {
 
     return (
         <div>
-            <h3>Most wins</h3>
-            <div className="team-list-container stats-users">
-                {winners.map((w, i) =>
-                    w.map(u => (
-                        <div
-                            key={u.uid}
-                            style={{ padding: '1em' }}
-                            className={'stats-user ' + getPositionClassName(i)}
-                        >
-                            <FirebaseUser
-                                uid={u.uid}
-                                size={getAvatarSize(i)}
-                                className={getPositionClassName(i)}
-                            />
+            <Fade duration={900} delay={300} top distance="20px" cascade>
+                <div>
+                    <h3>Most wins</h3>
+                    <div className="team-list-container stats-users">
+                        {winners.map((w, i) =>
+                            w.map(u => (
+                                <div
+                                    key={u.uid}
+                                    className={
+                                        'stats-user ' + getPositionClassName(i)
+                                    }
+                                >
+                                    <FirebaseUser
+                                        uid={u.uid}
+                                        size={getAvatarSize(i)}
+                                        className={getPositionClassName(i)}
+                                    />
 
-                            {renderPositionBadge(i, u.wins)}
-                        </div>
-                    ))
-                )}
-            </div>
-            <br />
-            <br />
+                                    {renderPositionBadge(i, u.wins)}
+                                </div>
+                            ))
+                        )}
+                    </div>
+                    <br />
+                    <br />
+                </div>
+                <div>
+                    <h3>Matches played</h3>
+                    <div className="team-list-container stats-users">
+                        {matches.map((w, i) =>
+                            w.map(u => (
+                                <span
+                                    key={u.uid}
+                                    className={
+                                        'stats-user ' + getPositionClassName(i)
+                                    }
+                                >
+                                    <FirebaseUser
+                                        uid={u.uid}
+                                        size={getAvatarSize(i)}
+                                        className={getPositionClassName(i)}
+                                    />
+                                    {renderPositionBadge(i, u.matches)}
+                                </span>
+                            ))
+                        )}
+                    </div>
+                    <br />
+                    <br />
+                </div>
 
-            <h3>Matches played</h3>
-            <div className="team-list-container stats-users">
-                {matches.map((w, i) =>
-                    w.map(u => (
-                        <span
-                            key={u.uid}
-                            style={{ padding: '1em' }}
-                            className={'stats-user ' + getPositionClassName(i)}
-                        >
-                            <FirebaseUser
-                                uid={u.uid}
-                                size={getAvatarSize(i)}
-                                className={getPositionClassName(i)}
-                            />
-                            {renderPositionBadge(i, u.matches)}
-                        </span>
-                    ))
-                )}
-            </div>
-
-            <br />
-            <br />
-            <h3>Biggest loser</h3>
-            <div className="team-list-container stats-users">
-                {losers.map((w, i) =>
-                    w.map(u => (
-                        <span
-                            key={u.uid}
-                            className={'stats-user ' + getPositionClassName(i)}
-                            style={{ padding: '1em' }}
-                        >
-                            <FirebaseUser
-                                uid={u.uid}
-                                size={getAvatarSize(i)}
-                                className={getPositionClassName(i)}
-                            />
-                            {renderPositionBadge(i, u.loses)}
-                        </span>
-                    ))
-                )}
-            </div>
+                <div>
+                    <h3>Biggest loser</h3>
+                    <div className="team-list-container stats-users">
+                        {losers.map((w, i) =>
+                            w.map(u => (
+                                <span
+                                    key={u.uid}
+                                    className={
+                                        'stats-user ' + getPositionClassName(i)
+                                    }
+                                >
+                                    <FirebaseUser
+                                        uid={u.uid}
+                                        size={getAvatarSize(i)}
+                                        className={getPositionClassName(i)}
+                                    />
+                                    {renderPositionBadge(i, u.loses)}
+                                </span>
+                            ))
+                        )}
+                    </div>
+                </div>
+            </Fade>
         </div>
     );
 };
 
-const Profile = (props: Props) => {
+const Stats = (props: Props) => {
     const query = firebase.firestore().collection('stats');
     const [data, isLoading] = useCollectionData(query, { idField: 'uid' });
 
@@ -204,4 +207,4 @@ const Profile = (props: Props) => {
     );
 };
 
-export default Profile;
+export default Stats;
