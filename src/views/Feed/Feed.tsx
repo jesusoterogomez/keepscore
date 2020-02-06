@@ -48,7 +48,7 @@ const renderMatches = (matches: Match[]) => {
                     <Attack height="22px" width="22px" />
                 </div>
                 <div className="feed-item-avatar">
-                    <FirebaseUser size={50} uid={match.teams[0].defense.uid} />
+                    <FirebaseUser size={50} uid={match.teams[1].defense.uid} />
                     <Defense height="22px" width="22px" />
                 </div>
             </div>

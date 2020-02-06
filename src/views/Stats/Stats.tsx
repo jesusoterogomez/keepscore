@@ -20,53 +20,160 @@ type Stats = {
     singles: number;
 };
 
+const getAvatarSize = (index: number) => {
+    switch (index) {
+        case 0:
+            return 70;
+        case 1:
+            return 55;
+        case 2:
+            return 45;
+        default:
+            return 60;
+    }
+};
+
+const renderPositionBadge = (index: number, value: number) => {
+    let position = null;
+
+    switch (index) {
+        case 0:
+            position = '1st';
+            break;
+        case 1:
+            position = '2nd';
+            break;
+        case 2:
+            position = '3rd';
+            break;
+        default:
+            position = '1st';
+            break;
+    }
+
+    return (
+        <span className={'badge ' + getPositionClassName(index)}>
+            <span className={'badge-content'}>
+                {position} <span className="separator">&nbsp;|&nbsp;</span>{' '}
+                {value}
+            </span>
+        </span>
+    );
+};
+
+const getPositionClassName = (index: number) => {
+    switch (index) {
+        case 0:
+            return 'gold';
+        case 1:
+            return 'silver';
+        case 2:
+            return 'bronze';
+        default:
+            return 'gold';
+    }
+};
+
 const renderStats = (stats: Stats[]) => {
     if (stats.length === 0) {
         return <h1>No stats yet. Start playing!</h1>;
     }
 
-    const { wins } = lodash.orderBy(stats, ['wins'], ['desc'])[0];
-    const mostWins = stats.filter(s => s.wins === wins);
+    const winsGrouped = lodash.groupBy(stats, 'wins');
+    const winners = lodash
+        .sortedUniq(Object.keys(winsGrouped))
+        .reverse()
+        .slice(0, 3)
+        .map(i => winsGrouped[i]);
 
-    const { matches } = lodash.orderBy(stats, ['matches'], ['desc'])[0];
-    const mostMatches = stats.filter(s => s.matches === matches);
+    console.log(
+        winsGrouped,
+        lodash.sortedUniq(Object.keys(winsGrouped)).reverse(),
+        lodash
+            .sortedUniq(Object.keys(winsGrouped))
+            .reverse()
+            .slice(0, 3)
+    );
 
-    const { loses } = lodash.orderBy(stats, ['matches'], ['desc'])[0];
-    const mostLoses = stats.filter(s => s.matches === matches);
+    const matchesGrouped = lodash.groupBy(stats, 'matches');
+    const matches = lodash
+        .sortedUniq(Object.keys(matchesGrouped))
+        .reverse()
+        .slice(0, 3)
+        .map(i => matchesGrouped[i]);
+
+    const losesGrouped = lodash.groupBy(stats, 'loses');
+    const losers = lodash
+        .sortedUniq(Object.keys(losesGrouped))
+        .reverse()
+        .slice(0, 3)
+        .map(i => losesGrouped[i]);
 
     return (
         <div>
-            <h1>Most wins ({wins})</h1>
-            <br />
-            <div>
-                {mostWins.map(u => (
-                    <span key={u.uid} style={{ padding: '1em' }}>
-                        <FirebaseUser uid={u.uid} />
-                    </span>
-                ))}
+            <h3>Most wins</h3>
+            <div className="team-list-container stats-users">
+                {winners.map((w, i) =>
+                    w.map(u => (
+                        <div
+                            key={u.uid}
+                            style={{ padding: '1em' }}
+                            className={'stats-user ' + getPositionClassName(i)}
+                        >
+                            <FirebaseUser
+                                uid={u.uid}
+                                size={getAvatarSize(i)}
+                                className={getPositionClassName(i)}
+                            />
+
+                            {renderPositionBadge(i, u.wins)}
+                        </div>
+                    ))
+                )}
             </div>
             <br />
             <br />
 
-            <h1>Matches played ({matches})</h1>
-            <div>
-                {mostMatches.map(u => (
-                    <span key={u.uid} style={{ padding: '1em' }}>
-                        <FirebaseUser uid={u.uid} />
-                    </span>
-                ))}
+            <h3>Matches played</h3>
+            <div className="team-list-container stats-users">
+                {matches.map((w, i) =>
+                    w.map(u => (
+                        <span
+                            key={u.uid}
+                            style={{ padding: '1em' }}
+                            className={'stats-user ' + getPositionClassName(i)}
+                        >
+                            <FirebaseUser
+                                uid={u.uid}
+                                size={getAvatarSize(i)}
+                                className={getPositionClassName(i)}
+                            />
+                            {renderPositionBadge(i, u.matches)}
+                        </span>
+                    ))
+                )}
             </div>
 
             <br />
             <br />
-            <h1>Biggest loser ({loses})</h1>
-            <br />
-            <div>
-                {mostLoses.map(u => (
-                    <span key={u.uid} style={{ padding: '1em' }}>
-                        <FirebaseUser uid={u.uid} />
-                    </span>
-                ))}
+            <h3>Biggest loser</h3>
+            <div className="team-list-container stats-users">
+                {losers.map((w, i) =>
+                    w.map(u => (
+                        <span
+                            key={u.uid}
+                            className={'stats-user ' + getPositionClassName(i)}
+                            style={{ padding: '1em' }}
+                        >
+                            <FirebaseUser
+                                uid={u.uid}
+                                size={getAvatarSize(i)}
+                                className={getPositionClassName(i)}
+                            />
+                            {renderPositionBadge(i, u.loses)}
+                        </span>
+                    ))
+                )}
             </div>
         </div>
     );
@@ -84,7 +191,7 @@ const Profile = (props: Props) => {
                 {isLoading ? (
                     <Loader />
                 ) : (
-                    <div>
+                    <div className="scroll-container">
                         {data ? (
                             renderStats(data as Stats[])
                         ) : (

@@ -1,6 +1,60 @@
+@import 'variables.scss';
+
 .stats {
     display: flex;
     align-items: center;
     text-align: center;
     flex-direction: column;
+}
+
+.stats-users {
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+.stats-user {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+
+.badge {
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin-top: $theme-spacing/2;
+    .badge-content {
+        padding: $theme-spacing/8 $theme-spacing/3;
+        font-size: 0.9em;
+        font-weight: 800;
+        border-radius: 4px;
+
+        .separator {
+            font-weight: 300;
+        }
+    }
+
+    &.gold {
+        .badge-content {
+            background: transparentize($gold, 0.8);
+            color: lighten($gold, 10);
+            border: 2px lighten($gold, 10) solid;
+        }
+    }
+
+    &.silver {
+        .badge-content {
+            background: transparentize($silver, 0.8);
+            color: lighten($silver, 10);
+            border: 2px lighten($silver, 10) solid;
+        }
+    }
+
+    &.bronze {
+        .badge-content {
+            background: transparentize($bronze, 0.8);
+            color: lighten($bronze, 10);
+            border: 2px lighten($bronze, 10) solid;
+        }
+    }
 }

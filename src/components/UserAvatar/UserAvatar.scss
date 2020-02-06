@@ -28,4 +28,25 @@
         opacity: 0.3;
         pointer-events: none;
     }
+
+    &.gold {
+        .user-avatar-photo {
+            box-shadow: 0 0 0 4px inset $gold,
+                0 0 6px 8px transparentize($gold, 0.6);
+        }
+    }
+
+    &.silver {
+        .user-avatar-photo {
+            box-shadow: 0 0 0 4px $silver,
+                0 0 6px 8px transparentize($silver, 0.6);
+        }
+    }
+
+    &.bronze {
+        .user-avatar-photo {
+            box-shadow: 0 0 0 4px inset $bronze,
+                0 0 6px 4px transparentize($bronze, 0.6);
+        }
+    }
 }
