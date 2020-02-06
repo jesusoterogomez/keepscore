@@ -18,6 +18,22 @@
         a {
             color: white;
         }
+
+        .active {
+            position: relative;
+            &:after {
+                content: '';
+                position: absolute;
+                display: block;
+                border-radius: 50%;
+                background: $green;
+                height: 8px;
+                width: 8px;
+                left: 50%;
+                bottom: -10px;
+                margin-left: -4px;
+            }
+        }
     }
 }
 

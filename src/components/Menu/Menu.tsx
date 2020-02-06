@@ -13,12 +13,22 @@ const Menu: React.FC = () => {
     return (
         <ul className="bottom-menu">
             <li>
-                <Link to="/">
+                <Link
+                    to="/"
+                    getProps={({ isCurrent }) => ({
+                        className: isCurrent ? 'active' : '',
+                    })}
+                >
                     <Home style={{ fontSize: 26 }} />
                 </Link>
             </li>
             <li>
-                <Link to="stats">
+                <Link
+                    to="stats"
+                    getProps={({ isCurrent }) => ({
+                        className: isCurrent ? 'active' : '',
+                    })}
+                >
                     <BarChart style={{ fontSize: 26 }} />
                 </Link>
             </li>
@@ -34,12 +44,22 @@ const Menu: React.FC = () => {
                 </Link>
             </li>
             <li>
-                <Link to="profile">
+                <Link
+                    to="profile"
+                    getProps={({ isCurrent }) => ({
+                        className: isCurrent ? 'active' : '',
+                    })}
+                >
                     <Person style={{ fontSize: 26 }} />
                 </Link>
             </li>
             <li>
-                <Link to="profile">
+                <Link
+                    to="profile"
+                    getProps={({ isCurrent }) => ({
+                        className: isCurrent ? 'active' : '',
+                    })}
+                >
                     <Settings style={{ fontSize: 26 }} />
                 </Link>
             </li>

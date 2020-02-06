@@ -21,6 +21,10 @@ type Stats = {
 };
 
 const renderStats = (stats: Stats[]) => {
+    if (stats.length === 0) {
+        return <h1>No stats yet. Start playing!</h1>;
+    }
+
     const { wins } = lodash.orderBy(stats, ['wins'], ['desc'])[0];
     const mostWins = stats.filter(s => s.wins === wins);
 
@@ -56,7 +60,6 @@ const renderStats = (stats: Stats[]) => {
 
 const Profile = (props: Props) => {
     const query = firebase.firestore().collection('stats');
-
     const [data, isLoading] = useCollectionData(query, { idField: 'uid' });
 
     return (
