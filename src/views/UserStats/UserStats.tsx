@@ -42,49 +42,55 @@ const UserStats = ({ uid, className }: Props) => {
     };
 
     return (
-        <div className={`user-stats ${className || ''}`}>
-            <div className="row">
-                <div className="column user-stats-item">
-                    {renderScore('Matches', () => stats.matches)}
+        <Fade>
+            <div className={`user-stats ${className || ''}`}>
+                <div className="row">
+                    <div className="column user-stats-item">
+                        {renderScore('Matches', () => stats.matches)}
+                    </div>
+                    <div className="column user-stats-item">
+                        {renderScore('Score', () => stats.wins - stats.loses)}
+                    </div>
                 </div>
-                <div className="column user-stats-item">
-                    {renderScore('Score', () => stats.wins - stats.loses)}
+                <div className="row">
+                    <div className="column user-stats-item">
+                        {renderScore('Wins', () => stats.wins)}
+                    </div>
+                    <div className="column user-stats-item">
+                        {renderScore('Losses', () => stats.loses)}
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="column user-stats-item">
+                        {renderScore(
+                            'Win %',
+                            () =>
+                                Math.round((stats.wins / stats.matches) * 100) +
+                                '%'
+                        )}
+                    </div>
+                    <div className="column user-stats-item">
+                        {renderScore(
+                            'Loss %',
+                            () =>
+                                Math.round(
+                                    (stats.loses / stats.matches) * 100
+                                ) + '%'
+                        )}
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="column user-stats-item">
+                        {renderScore(
+                            'Win/loss ratio',
+                            () =>
+                                Math.round((stats.wins / stats.loses) * 100) /
+                                100
+                        )}
+                    </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="column user-stats-item">
-                    {renderScore('Wins', () => stats.wins)}
-                </div>
-                <div className="column user-stats-item">
-                    {renderScore('Losses', () => stats.loses)}
-                </div>
-            </div>
-            <div className="row">
-                <div className="column user-stats-item">
-                    {renderScore(
-                        'Win %',
-                        () =>
-                            Math.round((stats.wins / stats.matches) * 100) + '%'
-                    )}
-                </div>
-                <div className="column user-stats-item">
-                    {renderScore(
-                        'Loss %',
-                        () =>
-                            Math.round((stats.loses / stats.matches) * 100) +
-                            '%'
-                    )}
-                </div>
-            </div>
-            <div className="row">
-                <div className="column user-stats-item">
-                    {renderScore(
-                        'Win/loss ratio',
-                        () => Math.round((stats.wins / stats.loses) * 100) / 100
-                    )}
-                </div>
-            </div>
-        </div>
+        </Fade>
     );
 };
 
