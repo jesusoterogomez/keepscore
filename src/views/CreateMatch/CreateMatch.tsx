@@ -201,13 +201,7 @@ const CreateMatch: React.FC = () => {
                                         />
                                     </div>
                                 )}
-                                <Fade
-                                    duration={600}
-                                    top
-                                    distance="10px"
-                                    delay={300}
-                                    cascade
-                                >
+                                <Fade duration={600} delay={300} cascade>
                                     <div>
                                         {users.map(user => (
                                             <div
@@ -249,13 +243,7 @@ const CreateMatch: React.FC = () => {
                                         />
                                     </div>
                                 )}
-                                <Fade
-                                    duration={600}
-                                    top
-                                    distance="10px"
-                                    delay={300}
-                                    cascade
-                                >
+                                <Fade duration={600} delay={300} cascade>
                                     <div>
                                         {users.map(user => (
                                             <div

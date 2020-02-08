@@ -16,7 +16,7 @@
 .feed-item-container {
     display: flex;
     flex-wrap: wrap;
-    border: 2px solid transparentize($color: #fff, $amount: 0.5);
+    border: 2px solid transparentize($color: #fff, $amount: 0.8);
     padding: $theme-spacing/2 0;
     border-radius: 4px;
     background: transparentize($color: #fff, $amount: 0.9);

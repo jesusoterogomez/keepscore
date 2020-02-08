@@ -29,45 +29,60 @@ type Match = {
     }[];
 };
 
-const renderMatches = (match: Match, filter: string, user: User) => {
+const renderMatches = (match: Match, index: number) => {
+    // @todo: every 6 items, reset delay.
     return (
         <div key={match.id} className="feed-item">
-            <div className="feed-item-container">
-                <div className="feed-item-avatar">
-                    <FirebaseUser size={46} uid={match.teams[0].attack.uid} />
-                    <Attack height="20px" width="20px" />
-                </div>
-                <div className="feed-item-avatar">
-                    <FirebaseUser size={46} uid={match.teams[0].defense.uid} />
-                    <Defense height="20px" width="20px" />
-                </div>
+            <Fade duration={1200} delay={0 + index * 50} top distance="20px">
+                <div className="feed-item-container">
+                    <div className="feed-item-avatar">
+                        <FirebaseUser
+                            size={46}
+                            uid={match.teams[0].attack.uid}
+                        />
+                        <Attack height="20px" width="20px" />
+                    </div>
+                    <div className="feed-item-avatar">
+                        <FirebaseUser
+                            size={46}
+                            uid={match.teams[0].defense.uid}
+                        />
+                        <Defense height="20px" width="20px" />
+                    </div>
 
-                <div className="feed-item-score">
-                    <span>{match.teams[0].score}</span>
-                    <span>&nbsp;:&nbsp;</span>
-                    <span>{match.teams[1].score}</span>
-                </div>
+                    <div className="feed-item-score">
+                        <span>{match.teams[0].score}</span>
+                        <span>&nbsp;:&nbsp;</span>
+                        <span>{match.teams[1].score}</span>
+                    </div>
 
-                <div className="feed-item-avatar">
-                    <FirebaseUser size={46} uid={match.teams[1].attack.uid} />
-                    <Attack height="20px" width="20px" />
-                </div>
-                <div className="feed-item-avatar">
-                    <FirebaseUser size={46} uid={match.teams[1].defense.uid} />
-                    <Defense height="20px" width="20px" />
-                </div>
+                    <div className="feed-item-avatar">
+                        <FirebaseUser
+                            size={46}
+                            uid={match.teams[1].attack.uid}
+                        />
+                        <Attack height="20px" width="20px" />
+                    </div>
+                    <div className="feed-item-avatar">
+                        <FirebaseUser
+                            size={46}
+                            uid={match.teams[1].defense.uid}
+                        />
+                        <Defense height="20px" width="20px" />
+                    </div>
 
-                <div className="flex-break"></div>
+                    <div className="flex-break"></div>
 
-                <div className="feed-item-footer">
-                    <div>{moment(match.createdAt.toDate()).fromNow()}</div>
-                    <div>
-                        {moment(match.createdAt.toDate()).format(
-                            'ddd, MMM Do - LT'
-                        )}
+                    <div className="feed-item-footer">
+                        <div>{moment(match.createdAt.toDate()).fromNow()}</div>
+                        <div>
+                            {moment(match.createdAt.toDate()).format(
+                                'ddd, MMM Do - LT'
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Fade>
         </div>
     );
 };
@@ -125,22 +140,9 @@ const Feed: React.FC = () => {
                             )}
                             {items && items.length > 0 && (
                                 <div>
-                                    <Fade
-                                        duration={900}
-                                        delay={100}
-                                        top
-                                        distance="20px"
-                                        cascade
-                                    >
-                                        {items &&
-                                            items.map(m =>
-                                                renderMatches(
-                                                    m as Match,
-                                                    filter,
-                                                    user as User
-                                                )
-                                            )}
-                                    </Fade>
+                                    {items.map((m, i) =>
+                                        renderMatches(m as Match, i)
+                                    )}
                                 </div>
                             )}
                         </div>
