@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import PageTitle from 'components/PageHeader';
 import { Link, Redirect } from '@reach/router';
-import { Close, Add, Remove, SyncAlt } from '@material-ui/icons';
+import { Close, Add, Remove, SyncAlt, Check } from '@material-ui/icons';
 import PageContainer from 'components/PageContainer';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import firebase, { User } from 'firebase';
 import UserAvatar from 'components/UserAvatar';
-import { Button } from '@material-ui/core';
+import {
+    Button,
+    DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+} from '@material-ui/core';
 import lodash from 'lodash';
 import { ReactComponent as Attack } from 'resources/Attack.svg';
 import { ReactComponent as Defense } from 'resources/Defense.svg';
-
-import './CreateMatch.scss';
 import FirebaseUser from 'components/FirebaseUserAvatar';
+import './CreateMatch.scss';
 
 //@ts-ignore
 import Fade from 'react-reveal/Fade';
@@ -56,6 +62,15 @@ const CreateMatch: React.FC = () => {
     const [opponentsScore, setOpponentsScore] = useState(0);
 
     const [isSaved, setIsSaved] = useState(false);
+
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleClickOpen = () => {
+        setOpenDialog(true);
+    };
+
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
 
     const handleTeammateClick = (_teammate: User) => {
         if (teammate === _teammate.uid) {
@@ -516,15 +531,23 @@ const CreateMatch: React.FC = () => {
                                 </Button>
                             </div>
                         </div>
+
                         <div className="submit-match">
                             <Button
                                 disabled={!canSubmit}
                                 className="pink-button"
-                                onClick={saveMatchResults}
+                                onClick={handleClickOpen}
+                                // onClick={saveMatchResults}
                             >
                                 Save match results
                                 <Add />
                             </Button>
+
+                            <SimpleDialog
+                                open={openDialog}
+                                onSave={saveMatchResults}
+                                onClose={handleClose}
+                            />
                         </div>
                     </div>
                 </Fade>
@@ -532,5 +555,51 @@ const CreateMatch: React.FC = () => {
         </div>
     );
 };
+
+function SimpleDialog(props: {
+    onClose: Function;
+    onSave: Function;
+    open: boolean;
+}) {
+    const { onClose, onSave, open } = props;
+
+    const handleClose = () => {
+        onClose();
+    };
+
+    const handleSave = () => {
+        onSave();
+    };
+
+    return (
+        <Dialog
+            onClose={handleClose}
+            aria-labelledby="simple-dialog-title"
+            open={open}
+        >
+            <DialogTitle id="simple-dialog-title">Are you sure?</DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Make sure teams and score are correct. This information
+                    cannot be changed later.
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    Cancel
+                </Button>
+                <Button
+                    onClick={handleSave}
+                    className="pink-button"
+                    color="primary"
+                    autoFocus
+                >
+                    Save&nbsp;
+                    <Check fontSize={'small'} />
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+}
 
 export default CreateMatch;
