@@ -97,7 +97,7 @@ function StatsDialog(props: { onClose: Function; open: boolean; user: User }) {
     };
 
     return (
-        <Fade duration={500} top distance="20px" cascade>
+        <Fade duration={300} top distance="20px" cascade>
             <Dialog
                 fullWidth={true}
                 maxWidth={'lg'}

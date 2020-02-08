@@ -15,7 +15,8 @@ type Stats = {
     uid: string;
     matches: number;
     wins: number;
-    loses: number;
+    streak: number;
+    losses: number;
     doubles: number;
     singles: number;
 };
@@ -49,7 +50,7 @@ const UserStats = ({ uid, className }: Props) => {
                         {renderScore('Matches', () => stats.matches)}
                     </div>
                     <div className="column user-stats-item">
-                        {renderScore('Score', () => stats.wins - stats.loses)}
+                        {renderScore('Score', () => stats.wins - stats.losses)}
                     </div>
                 </div>
                 <div className="row">
@@ -57,7 +58,7 @@ const UserStats = ({ uid, className }: Props) => {
                         {renderScore('Wins', () => stats.wins)}
                     </div>
                     <div className="column user-stats-item">
-                        {renderScore('Losses', () => stats.loses)}
+                        {renderScore('Losses', () => stats.losses)}
                     </div>
                 </div>
                 <div className="row">
@@ -74,7 +75,7 @@ const UserStats = ({ uid, className }: Props) => {
                             'Loss %',
                             () =>
                                 Math.round(
-                                    (stats.loses / stats.matches) * 100
+                                    (stats.losses / stats.matches) * 100
                                 ) + '%'
                         )}
                     </div>
@@ -82,11 +83,14 @@ const UserStats = ({ uid, className }: Props) => {
                 <div className="row">
                     <div className="column user-stats-item">
                         {renderScore(
-                            'Win/loss ratio',
+                            'Win ratio',
                             () =>
-                                Math.round((stats.wins / stats.loses) * 100) /
+                                Math.round((stats.wins / stats.losses) * 100) /
                                 100
                         )}
+                    </div>
+                    <div className="column user-stats-item">
+                        {renderScore('Streak', () => stats.streak)}
                     </div>
                 </div>
             </div>

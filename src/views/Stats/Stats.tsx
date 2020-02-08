@@ -17,7 +17,8 @@ type Stats = {
     uid: string;
     matches: number;
     wins: number;
-    loses: number;
+    streak: number;
+    losses: number;
     doubles: number;
     singles: number;
 };
@@ -95,16 +96,32 @@ const renderStats = (stats: Stats[]) => {
         .slice(0, 3)
         .map(i => matchesGrouped[i]);
 
-    const losesGrouped = lodash.groupBy(stats, 'loses');
-    const losers = lodash
-        .sortedUniq(Object.keys(losesGrouped))
+    const streaksGrouped = lodash.groupBy(
+        stats.filter(s => s.streak > 0), // Only more than 1 streak
+        'streak'
+    );
+    const streaks = lodash
+        .sortedUniq(Object.keys(streaksGrouped))
         .reverse()
         .slice(0, 3)
-        .map(i => losesGrouped[i]);
+        .map(i => streaksGrouped[i]);
+
+    const lossesGrouped = lodash.groupBy(stats, 'losses');
+    const losers = lodash
+        .sortedUniq(Object.keys(lossesGrouped))
+        .reverse()
+        .slice(0, 3)
+        .map(i => lossesGrouped[i]);
 
     return (
         <div>
             <Fade duration={900} delay={300} top distance="20px" cascade>
+                <StatLeaders
+                    title="Longest win streak"
+                    results={streaks}
+                    handleMetric={stat => stat.streak + 1}
+                />
+
                 <StatLeaders
                     title="Most wins"
                     results={winners}
@@ -120,7 +137,7 @@ const renderStats = (stats: Stats[]) => {
                 <StatLeaders
                     title="Biggest loser"
                     results={losers}
-                    handleMetric={stat => stat.loses}
+                    handleMetric={stat => stat.losses}
                 />
             </Fade>
         </div>
