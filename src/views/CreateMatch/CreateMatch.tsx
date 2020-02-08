@@ -181,9 +181,12 @@ const CreateMatch: React.FC = () => {
             {!currentUser && <Redirect to="login" noThrow />}
             {isSaved && <Redirect to="/" noThrow />}
             <PageTitle title="Create New">
-                <Link className="close-link" to="/">
-                    Close <Close style={{ fontSize: 18 }} />
-                </Link>
+                <Button>
+                    <Link className="close-link" to="/">
+                        Close&nbsp;
+                        <Close style={{ fontSize: 20 }} />
+                    </Link>
+                </Button>
             </PageTitle>
 
             <PageContainer>

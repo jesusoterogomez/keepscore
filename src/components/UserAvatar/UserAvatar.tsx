@@ -45,8 +45,6 @@ const UserAvatar: React.FC<Props> = props => {
         setOpenDialog(false);
     };
 
-    console.log(openDialog);
-
     return (
         <div
             onClick={props.enableStatsModal ? handleClickOpen : () => {}}
