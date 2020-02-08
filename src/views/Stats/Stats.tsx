@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase, { User } from 'firebase';
+import firebase from 'firebase';
 import PageTitle from 'components/PageHeader';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { RouteComponentProps } from '@reach/router';

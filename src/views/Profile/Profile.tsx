@@ -21,11 +21,7 @@ const Profile = (props: Props) => {
                 <PageContainer>
                     <div className="profile scroll-container">
                         <div className="profile-user">
-                            <UserAvatar
-                                user={user}
-                                size={80}
-                                enableStatsModal
-                            />
+                            <UserAvatar user={user} size={100} />
                             <h4 className="profile-user-name">
                                 {user.displayName}
                             </h4>
