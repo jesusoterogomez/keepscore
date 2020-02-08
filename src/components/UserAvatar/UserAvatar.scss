@@ -12,19 +12,6 @@
         box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3) inset;
     }
 
-    .user-avatar-photo-loading {
-        // position: absolute;
-        // opacity: 0;
-        // transition: opacity 0.3s ease;
-        // height: 100%;
-        // width: 100%;
-        // background: $darker-blue;
-
-        &.active {
-            // opacity: 1;
-        }
-    }
-
     .user-avatar-name {
         font-size: 0.7em;
         padding-top: $theme-spacing/4;

@@ -15,27 +15,3 @@
         padding-top: $theme-spacing/4;
     }
 }
-
-.user-stats {
-    width: 80%;
-    margin: 0 auto;
-    padding: $theme-spacing/2;
-    background-color: $dark-blue;
-    border-radius: 6px;
-
-    .row,
-    .column {
-        margin: $theme-spacing/8;
-    }
-
-    .user-stats-item {
-        padding: $theme-spacing/4 $theme-spacing/6;
-        border: transparentize(#fff, 0.9) 1px solid;
-        border-radius: 6px;
-
-        h3 {
-            font-size: 0.9em;
-            padding-bottom: $theme-spacing/4;
-        }
-    }
-}

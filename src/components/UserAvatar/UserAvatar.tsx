@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { User } from 'firebase';
 import UserPlaceholder from 'resources/user-placeholder.png';
 import './UserAvatar.scss';
+
+import { Button, DialogTitle, Dialog, DialogActions } from '@material-ui/core';
+import UserStats from 'views/UserStats';
+
+//@ts-ignore
+import Fade from 'react-reveal/Fade';
 
 type Props = {
     user: User;
@@ -14,6 +20,8 @@ type Props = {
     isPlaceholder?: boolean;
     firstName?: boolean;
     isLoading?: boolean;
+
+    enableStatsModal?: boolean;
 };
 
 const UserAvatar: React.FC<Props> = props => {
@@ -27,12 +35,26 @@ const UserAvatar: React.FC<Props> = props => {
           } as User)
         : props.user;
 
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpenDialog(true);
+    };
+
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
+
+    console.log(openDialog);
+
     return (
         <div
+            onClick={props.enableStatsModal ? handleClickOpen : () => {}}
             className={`user-avatar ${
                 props.disabled ? 'disabled' : ''
             } ${props.className || ''}`}
         >
+            <StatsDialog open={openDialog} onClose={handleClose} user={user} />
             {props.icon && props.icon}
             {user.photoURL && (
                 <div
@@ -67,5 +89,44 @@ const UserAvatar: React.FC<Props> = props => {
         </div>
     );
 };
+
+function StatsDialog(props: { onClose: Function; open: boolean; user: User }) {
+    const { onClose, open, user } = props;
+
+    const handleClose = (e: any) => {
+        e.stopPropagation();
+        onClose();
+    };
+
+    return (
+        <Fade duration={500} top distance="20px" cascade>
+            <Dialog
+                fullWidth={true}
+                maxWidth={'lg'}
+                className="stats-dialog"
+                onClose={handleClose}
+                aria-labelledby="simple-dialog-title"
+                open={open}
+            >
+                <DialogTitle id="simple-dialog-title">
+                    {user.displayName}
+                </DialogTitle>
+                <div>
+                    <UserStats uid={user.uid} className="dialog-embedded" />
+                </div>
+                <DialogActions style={{ justifyContent: 'center' }}>
+                    <Button
+                        onClick={handleClose}
+                        className="pink-button"
+                        color="primary"
+                        autoFocus
+                    >
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </Fade>
+    );
+}
 
 export default UserAvatar;

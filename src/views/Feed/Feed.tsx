@@ -37,6 +37,7 @@ const renderMatches = (match: Match, index: number) => {
                 <div className="feed-item-container">
                     <div className="feed-item-avatar">
                         <FirebaseUser
+                            enableStatsModal
                             size={46}
                             uid={match.teams[0].attack.uid}
                         />
@@ -44,6 +45,7 @@ const renderMatches = (match: Match, index: number) => {
                     </div>
                     <div className="feed-item-avatar">
                         <FirebaseUser
+                            enableStatsModal
                             size={46}
                             uid={match.teams[0].defense.uid}
                         />
@@ -58,6 +60,7 @@ const renderMatches = (match: Match, index: number) => {
 
                     <div className="feed-item-avatar">
                         <FirebaseUser
+                            enableStatsModal
                             size={46}
                             uid={match.teams[1].attack.uid}
                         />
@@ -65,6 +68,7 @@ const renderMatches = (match: Match, index: number) => {
                     </div>
                     <div className="feed-item-avatar">
                         <FirebaseUser
+                            enableStatsModal
                             size={46}
                             uid={match.teams[1].defense.uid}
                         />

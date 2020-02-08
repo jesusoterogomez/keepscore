@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase from 'firebase';
+import firebase, { User } from 'firebase';
 import PageTitle from 'components/PageHeader';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { RouteComponentProps } from '@reach/router';
@@ -105,79 +105,61 @@ const renderStats = (stats: Stats[]) => {
     return (
         <div>
             <Fade duration={900} delay={300} top distance="20px" cascade>
-                <div>
-                    <h3>Most wins</h3>
-                    <div className="team-list-container stats-users">
-                        {winners.map((w, i) =>
-                            w.map(u => (
-                                <div
-                                    key={u.uid}
-                                    className={
-                                        'stats-user ' + getPositionClassName(i)
-                                    }
-                                >
-                                    <FirebaseUser
-                                        uid={u.uid}
-                                        size={getAvatarSize(i)}
-                                        className={getPositionClassName(i)}
-                                    />
+                <StatLeaders
+                    title="Most wins"
+                    results={winners}
+                    handleMetric={stat => stat.wins}
+                />
 
-                                    {renderPositionBadge(i, u.wins)}
-                                </div>
-                            ))
-                        )}
-                    </div>
-                    <br />
-                    <br />
-                </div>
-                <div>
-                    <h3>Matches played</h3>
-                    <div className="team-list-container stats-users">
-                        {matches.map((w, i) =>
-                            w.map(u => (
-                                <span
-                                    key={u.uid}
-                                    className={
-                                        'stats-user ' + getPositionClassName(i)
-                                    }
-                                >
-                                    <FirebaseUser
-                                        uid={u.uid}
-                                        size={getAvatarSize(i)}
-                                        className={getPositionClassName(i)}
-                                    />
-                                    {renderPositionBadge(i, u.matches)}
-                                </span>
-                            ))
-                        )}
-                    </div>
-                    <br />
-                    <br />
-                </div>
+                <StatLeaders
+                    title="Matches played"
+                    results={matches}
+                    handleMetric={stat => stat.matches}
+                />
 
-                <div>
-                    <h3>Biggest loser</h3>
-                    <div className="team-list-container stats-users">
-                        {losers.map((w, i) =>
-                            w.map(u => (
-                                <span
-                                    key={u.uid}
-                                    className={
-                                        'stats-user ' + getPositionClassName(i)
-                                    }
-                                >
-                                    <FirebaseUser
-                                        uid={u.uid}
-                                        size={getAvatarSize(i)}
-                                        className={getPositionClassName(i)}
-                                    />
-                                    {renderPositionBadge(i, u.loses)}
-                                </span>
-                            ))
-                        )}
-                    </div>
-                </div>
+                <StatLeaders
+                    title="Biggest loser"
+                    results={losers}
+                    handleMetric={stat => stat.loses}
+                />
             </Fade>
+        </div>
+    );
+};
+
+const StatLeaders = ({
+    title,
+    results,
+    handleMetric,
+}: {
+    title: string;
+    results: Stats[][];
+    handleMetric: (stats: Stats) => number;
+}) => {
+    return (
+        <div>
+            <h3>{title}</h3>
+            <div className="team-list-container stats-users">
+                {results.map((w, i) =>
+                    w.map(u => (
+                        <div
+                            key={u.uid}
+                            className={'stats-user ' + getPositionClassName(i)}
+                        >
+                            <FirebaseUser
+                                uid={u.uid}
+                                enableStatsModal
+                                size={getAvatarSize(i)}
+                                className={getPositionClassName(i)}
+                            />
+
+                            {renderPositionBadge(i, handleMetric(u))}
+                        </div>
+                    ))
+                )}
+            </div>
+            <br />
+            <br />
         </div>
     );
 };
