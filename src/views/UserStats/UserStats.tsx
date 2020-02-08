@@ -3,6 +3,9 @@ import firebase from 'firebase';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import './UserStats.scss';
 
+//@ts-ignore
+import Fade from 'react-reveal/Fade';
+
 type Props = {
     uid: string;
     className?: string;
@@ -23,48 +26,62 @@ const UserStats = ({ uid, className }: Props) => {
     const [data, isLoading] = useDocumentData(query);
     const stats = data as Stats;
 
-    if (isLoading === true) {
-        return null;
-    }
+    const renderScore = (title: string, calculateScore: Function) => {
+        return (
+            <>
+                <h3>{title}</h3>
+                <h1>
+                    {isLoading ? (
+                        <span style={{ opacity: 0.1 }}>-</span>
+                    ) : (
+                        <Fade>{calculateScore()}</Fade>
+                    )}
+                </h1>
+            </>
+        );
+    };
 
     return (
         <div className={`user-stats ${className || ''}`}>
             <div className="row">
                 <div className="column user-stats-item">
-                    <h3>Matches</h3>
-                    <h1>{stats.matches}</h1>
+                    {renderScore('Matches', () => stats.matches)}
                 </div>
                 <div className="column user-stats-item">
-                    <h3>Score</h3>
-                    <h1>{stats.wins - stats.loses}</h1>
+                    {renderScore('Score', () => stats.wins - stats.loses)}
                 </div>
             </div>
             <div className="row">
                 <div className="column user-stats-item">
-                    <h3>Wins</h3>
-                    <h1>{stats.wins}</h1>
+                    {renderScore('Wins', () => stats.wins)}
                 </div>
                 <div className="column user-stats-item">
-                    <h3>Losses</h3>
-                    <h1>{stats.loses}</h1>
+                    {renderScore('Losses', () => stats.loses)}
                 </div>
             </div>
             <div className="row">
                 <div className="column user-stats-item">
-                    <h3>Win %</h3>
-                    <h1>{Math.round((stats.wins / stats.matches) * 100)}%</h1>
+                    {renderScore(
+                        'Win %',
+                        () =>
+                            Math.round((stats.wins / stats.matches) * 100) + '%'
+                    )}
                 </div>
                 <div className="column user-stats-item">
-                    <h3>Loss %</h3>
-                    <h1>{Math.round((stats.loses / stats.matches) * 100)}%</h1>
+                    {renderScore(
+                        'Loss %',
+                        () =>
+                            Math.round((stats.loses / stats.matches) * 100) +
+                            '%'
+                    )}
                 </div>
             </div>
             <div className="row">
                 <div className="column user-stats-item">
-                    <h3>Win/loss ratio</h3>
-                    <h1>
-                        {Math.round((stats.wins / stats.loses) * 100) / 100}
-                    </h1>
+                    {renderScore(
+                        'Win/loss ratio',
+                        () => Math.round((stats.wins / stats.loses) * 100) / 100
+                    )}
                 </div>
             </div>
         </div>
