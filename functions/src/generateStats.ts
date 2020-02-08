@@ -40,6 +40,8 @@ const generateStats = async (_: any) => {
                         streak:
                             win && memberData.wonLast
                                 ? (memberData.streak || 0) + 1
+                                : win
+                                ? 1
                                 : 0,
                         // longestStreak: win && wonLast ? memberData.longestStreak + 1 : 0,
                         matches: memberData.matches + 1,

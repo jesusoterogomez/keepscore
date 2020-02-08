@@ -47,6 +47,8 @@ const aggregateStats = async (
                         streak:
                             win && docData.wonLast
                                 ? (docData.streak || 0) + 1
+                                : win
+                                ? 1
                                 : 0,
                         matches: docData.matches + 1,
                         wins: win ? docData.wins + 1 : docData.wins,

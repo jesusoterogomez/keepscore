@@ -97,7 +97,7 @@ const renderStats = (stats: Stats[]) => {
         .map(i => matchesGrouped[i]);
 
     const streaksGrouped = lodash.groupBy(
-        stats.filter(s => s.streak > 0), // Only more than 1 streak
+        stats.filter(s => s.streak > 1), // Only more than 1 streak
         'streak'
     );
     const streaks = lodash
@@ -118,8 +118,9 @@ const renderStats = (stats: Stats[]) => {
             <Fade duration={900} delay={300} top distance="20px" cascade>
                 <StatLeaders
                     title="Longest win streak"
+                    noResultsText="Win at least 2 matches to be here"
                     results={streaks}
-                    handleMetric={stat => stat.streak + 1}
+                    handleMetric={stat => stat.streak}
                 />
 
                 <StatLeaders
@@ -147,9 +148,11 @@ const renderStats = (stats: Stats[]) => {
 const StatLeaders = ({
     title,
     results,
+    noResultsText,
     handleMetric,
 }: {
     title: string;
+    noResultsText?: string;
     results: Stats[][];
     handleMetric: (stats: Stats) => number;
 }) => {
@@ -173,6 +176,12 @@ const StatLeaders = ({
                             {renderPositionBadge(i, handleMetric(u))}
                         </div>
                     ))
+                )}
+                {noResultsText && results.length === 0 && (
+                    <p>
+                        <br />
+                        {noResultsText}
+                    </p>
                 )}
             </div>
             <br />
