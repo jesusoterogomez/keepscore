@@ -13,6 +13,10 @@
     padding-top: 0;
 
     li {
+        a {
+            -webkit-tap-highlight-color: transparent !important;
+        }
+
         position: relative;
 
         .MuiButton-root {
