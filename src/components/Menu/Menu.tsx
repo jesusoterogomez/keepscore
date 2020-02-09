@@ -44,16 +44,16 @@ const Menu: React.FC = () => {
             {MENU_ITEMS.map((item, key) => (
                 <li key={key}>
                     {item.type === 'link' && (
-                        <Button>
-                            <Link
-                                to={item.to}
-                                getProps={({ isCurrent }) => ({
-                                    className: isCurrent ? 'active' : '',
-                                })}
-                            >
+                        <Link
+                            to={item.to}
+                            getProps={({ isCurrent }) => ({
+                                className: isCurrent ? 'active' : '',
+                            })}
+                        >
+                            <Button>
                                 <item.Icon style={{ fontSize: 26 }} />
-                            </Link>
-                        </Button>
+                            </Button>
+                        </Link>
                     )}
                     {item.type === 'cta' && (
                         <Link to={item.to}>

@@ -15,8 +15,8 @@
     li {
         position: relative;
 
-        a {
-            color: white;
+        .MuiButton-root {
+            color: white !important;
         }
 
         .active {
@@ -30,7 +30,7 @@
                 height: 8px;
                 width: 8px;
                 left: 50%;
-                bottom: -10px;
+                bottom: -18px;
                 margin-left: -4px;
             }
         }
