@@ -85,8 +85,9 @@ const UserStats = ({ uid, className }: Props) => {
                         {renderScore(
                             'Win ratio',
                             () =>
-                                Math.round((stats.wins / stats.losses) * 100) /
-                                100
+                                Math.round(
+                                    (stats.wins / (stats.losses || 1)) * 100
+                                ) / 100
                         )}
                     </div>
                     <div className="column user-stats-item">
