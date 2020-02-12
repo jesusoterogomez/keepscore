@@ -1,9 +1,10 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import { getInitialStats, getUpdatedStats, Stats } from './utils/stats';
 
 const aggregateStats = async (
     snapshot: functions.firestore.DocumentSnapshot,
-    context: functions.EventContext
+    _: functions.EventContext
 ) => {
     const db = admin.firestore();
     admin.instanceId();
@@ -30,32 +31,14 @@ const aggregateStats = async (
 
                     if (!docData) {
                         console.info(`create new stats`);
-                        return transaction.create(ref, {
-                            wonLast: win,
-                            streak: win ? 1 : 0,
-                            matches: 1,
-                            wins: win ? 1 : 0,
-                            losses: win ? 0 : 1,
-                            doubles: 1,
-                            singles: 0,
-                        });
+                        return transaction.create(ref, getInitialStats(win));
                     }
 
                     console.info(`update existing stats`);
-                    return transaction.update(ref, {
-                        wonLast: win,
-                        streak:
-                            win && docData.wonLast
-                                ? (docData.streak || 0) + 1
-                                : win
-                                ? 1
-                                : 0,
-                        matches: docData.matches + 1,
-                        wins: win ? docData.wins + 1 : docData.wins,
-                        losses: win ? docData.losses : docData.losses + 1,
-                        doubles: docData.doubles + 1,
-                        singles: 0,
-                    });
+                    return transaction.update(
+                        ref,
+                        getUpdatedStats(docData as Stats, win)
+                    );
                 });
             });
 

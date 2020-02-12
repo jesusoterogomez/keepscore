@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { getInitialStats, getUpdatedStats } from './utils/stats';
 
 const generateStats = async (_: any) => {
     const db = admin.firestore();
@@ -16,41 +17,18 @@ const generateStats = async (_: any) => {
 
         teams.forEach((team: any) => {
             const { attack, defense, win } = team;
-            console.info('team', team);
-
             const members = [attack, defense];
 
             members.forEach(member => {
                 const memberData = results[member.uid];
 
                 if (!memberData) {
-                    results[member.uid] = {
-                        wonLast: win,
-                        streak: win ? 1 : 0,
-                        // longestStreak: win ? 1 : 0,
-                        matches: 1,
-                        wins: win ? 1 : 0,
-                        losses: win ? 0 : 1,
-                        doubles: 1,
-                        singles: 0,
-                    };
-                } else {
-                    results[member.uid] = {
-                        wonLast: win,
-                        streak:
-                            win && memberData.wonLast
-                                ? (memberData.streak || 0) + 1
-                                : win
-                                ? 1
-                                : 0,
-                        // longestStreak: win && wonLast ? memberData.longestStreak + 1 : 0,
-                        matches: memberData.matches + 1,
-                        wins: win ? memberData.wins + 1 : memberData.wins,
-                        losses: win ? memberData.losses : memberData.losses + 1,
-                        doubles: memberData.doubles + 1,
-                        singles: 0,
-                    };
+                    results[member.uid] = getInitialStats(win);
+                    return;
                 }
+
+                results[member.uid] = getUpdatedStats(memberData, win);
+                return;
             });
         });
     });
