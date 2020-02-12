@@ -15,12 +15,16 @@ type Props = RouteComponentProps;
 
 type Stats = {
     uid: string;
+    wonLast: boolean;
+    streak: number;
+    longestStreak: number;
     matches: number;
     wins: number;
-    streak: number;
     losses: number;
-    doubles: number;
-    singles: number;
+    score: number;
+    win_percent: number;
+    loss_percent: number;
+    win_ratio: number;
 };
 
 const getAvatarSize = (index: number) => {
@@ -36,7 +40,7 @@ const getAvatarSize = (index: number) => {
     }
 };
 
-const renderPositionBadge = (index: number, value: number) => {
+const renderPositionBadge = (index: number, value: number | string) => {
     let position = null;
 
     switch (index) {
@@ -77,67 +81,94 @@ const getPositionClassName = (index: number) => {
     }
 };
 
+const getResults = (stats: Stats[], property: string, filterFn?: any) => {
+    let data = stats;
+
+    if (filterFn) {
+        data = data.filter(filterFn);
+    }
+
+    const groupedResults = lodash.groupBy(data, property);
+    const resultKeys = Object.keys(groupedResults).map(s => Number(s));
+
+    return lodash
+        .chain(resultKeys)
+        .uniq()
+        .sortBy()
+        .value()
+        .reverse()
+        .slice(0, 3)
+        .map(i => groupedResults[i]);
+};
+
 const renderStats = (stats: Stats[]) => {
     if (stats.length === 0) {
         return <h1>No stats yet. Start playing!</h1>;
     }
 
-    const winsGrouped = lodash.groupBy(stats, 'wins');
-    const winners = lodash
-        .sortedUniq(Object.keys(winsGrouped))
-        .reverse()
-        .slice(0, 3)
-        .map(i => winsGrouped[i]);
-
-    const matchesGrouped = lodash.groupBy(stats, 'matches');
-    const matches = lodash
-        .sortedUniq(Object.keys(matchesGrouped))
-        .reverse()
-        .slice(0, 3)
-        .map(i => matchesGrouped[i]);
-
-    const streaksGrouped = lodash.groupBy(
-        stats.filter(s => s.streak > 1), // Only more than 1 streak
-        'streak'
-    );
-    const streaks = lodash
-        .sortedUniq(Object.keys(streaksGrouped))
-        .reverse()
-        .slice(0, 3)
-        .map(i => streaksGrouped[i]);
-
-    const lossesGrouped = lodash.groupBy(stats, 'losses');
-    const losers = lodash
-        .sortedUniq(Object.keys(lossesGrouped))
-        .reverse()
-        .slice(0, 3)
-        .map(i => lossesGrouped[i]);
-
     return (
         <div>
             <Fade duration={900} delay={300} top distance="20px" cascade>
                 <StatLeaders
-                    title="Longest win streak"
+                    title="Top of the hill"
+                    subtitle="Current streak (minimum 2 wins in a row)"
                     noResultsText="Win at least 2 matches to be here"
-                    results={streaks}
+                    results={getResults(
+                        stats,
+                        'streak',
+                        (stat: any) => stat.streak > 1
+                    )}
                     handleMetric={stat => stat.streak}
                 />
 
                 <StatLeaders
+                    title="Longest streak"
+                    subtitle="Best streak of all times (minimum 2 wins in a row)"
+                    noResultsText="Win at least 2 matches to be here"
+                    results={getResults(
+                        stats,
+                        'longestStreak',
+                        (stat: any) => stat.longestStreak > 1
+                    )}
+                    handleMetric={stat => stat.longestStreak}
+                />
+
+                <StatLeaders
+                    title="Win %"
+                    subtitle="Who's actually doing good (minimum 3 matches)"
+                    results={getResults(
+                        stats,
+                        'win_percent',
+                        (stat: any) => stat.matches > 2
+                    )}
+                    handleMetric={stat => stat.win_percent.toString() + '%'}
+                />
+
+                <StatLeaders
+                    title="Score"
+                    subtitle="(Wins - Loses)"
+                    results={getResults(stats, 'score')}
+                    handleMetric={stat => stat.score}
+                />
+
+                <StatLeaders
                     title="Most wins"
-                    results={winners}
+                    subtitle="Who was won the most games"
+                    results={getResults(stats, 'wins')}
                     handleMetric={stat => stat.wins}
                 />
 
                 <StatLeaders
-                    title="Matches played"
-                    results={matches}
+                    title="Most matches played"
+                    subtitle="Who's really hooked with this?"
+                    results={getResults(stats, 'matches')}
                     handleMetric={stat => stat.matches}
                 />
 
                 <StatLeaders
                     title="Biggest loser"
-                    results={losers}
+                    subtitle=":("
+                    results={getResults(stats, 'losses')}
                     handleMetric={stat => stat.losses}
                 />
             </Fade>
@@ -147,18 +178,23 @@ const renderStats = (stats: Stats[]) => {
 
 const StatLeaders = ({
     title,
+    subtitle,
     results,
     noResultsText,
     handleMetric,
 }: {
     title: string;
+    subtitle: string;
     noResultsText?: string;
     results: Stats[][];
-    handleMetric: (stats: Stats) => number;
+    handleMetric: (stats: Stats) => number | string;
 }) => {
     return (
         <div>
             <h3>{title}</h3>
+            <p style={{ fontSize: '90%', opacity: 0.7, marginTop: '8px' }}>
+                {subtitle}
+            </p>
             <div className="team-list-container stats-users">
                 {results.map((w, i) =>
                     w.map(u => (
