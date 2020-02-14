@@ -1,6 +1,6 @@
 # Keepscore
 
-## A terrible dashboard-scoreboard to compete on useless metrics
+## Foosball leaderboards
 
 
 ### Developer notes
