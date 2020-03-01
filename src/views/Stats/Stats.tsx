@@ -123,7 +123,7 @@ const renderStats = (stats: Stats[]) => {
 
                 <StatLeaders
                     title="Longest streak"
-                    subtitle="Best streak of all times (minimum 2 wins in a row)"
+                    subtitle="Best streak of all times"
                     noResultsText="Win at least 2 matches to be here"
                     results={getResults(
                         stats,
@@ -135,25 +135,40 @@ const renderStats = (stats: Stats[]) => {
 
                 <StatLeaders
                     title="Win %"
-                    subtitle="Who's actually doing good (minimum 3 matches)"
+                    subtitle="Who's doing good (minimum 5 matches)"
                     results={getResults(
                         stats,
                         'win_percent',
-                        (stat: any) => stat.matches > 2
+                        (stat: any) => stat.matches > 5
                     )}
                     handleMetric={stat => stat.win_percent.toString() + '%'}
                 />
 
                 <StatLeaders
-                    title="Score"
-                    subtitle="(Wins - Loses)"
-                    results={getResults(stats, 'score')}
-                    handleMetric={stat => stat.score}
+                    title="Loss %"
+                    subtitle="Biggest loser :("
+                    results={getResults(
+                        stats,
+                        'loss_percent',
+                        (stat: any) => stat.matches > 5
+                    )}
+                    handleMetric={stat => stat.loss_percent.toString() + '%'}
                 />
 
                 <StatLeaders
+                    title="Score"
+                    subtitle="(Wins - Losses)"
+                    results={getResults(
+                        stats,
+                        'score',
+                        (stat: any) => stat.matches > 5
+                    )}
+                    handleMetric={stat => stat.score}
+                />
+
+                {/* <StatLeaders
                     title="Most wins"
-                    subtitle="Who was won the most games"
+                    subtitle="Who has won the most games"
                     results={getResults(stats, 'wins')}
                     handleMetric={stat => stat.wins}
                 />
@@ -163,14 +178,7 @@ const renderStats = (stats: Stats[]) => {
                     subtitle="Who's really hooked with this?"
                     results={getResults(stats, 'matches')}
                     handleMetric={stat => stat.matches}
-                />
-
-                <StatLeaders
-                    title="Biggest loser"
-                    subtitle=":("
-                    results={getResults(stats, 'losses')}
-                    handleMetric={stat => stat.losses}
-                />
+                /> */}
             </Fade>
         </div>
     );
