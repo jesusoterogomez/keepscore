@@ -1,8 +1,7 @@
 import React from 'react';
-import firebase from 'firebase';
+import firebase, { User } from 'firebase/app';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import UserAvatar from 'components/UserAvatar';
-import { User } from 'firebase';
 
 type Props = {
     uid: string;

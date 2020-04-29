@@ -4,7 +4,7 @@ import PageHeader from 'components/PageHeader';
 import PageContainer from 'components/PageContainer';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import firebase, { User, firestore } from 'firebase';
+import firebase, { User, firestore } from 'firebase/app';
 import { ReactComponent as Attack } from 'resources/Attack.svg';
 import { ReactComponent as Defense } from 'resources/Defense.svg';
 import moment from 'moment';

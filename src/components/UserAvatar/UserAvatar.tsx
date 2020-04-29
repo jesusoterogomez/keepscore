@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User } from 'firebase';
+import { User } from 'firebase/app';
 import UserPlaceholder from 'resources/user-placeholder.png';
 import './UserAvatar.scss';
 

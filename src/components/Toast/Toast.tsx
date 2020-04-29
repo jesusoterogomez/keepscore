@@ -12,7 +12,7 @@ type Props = {
     onClose: Function;
 };
 
-const Toast = ({ open, text, onClose }: Props) => {
+const Toast = ({ open = false, text, onClose }: Props) => {
     return (
         <Snackbar
             open={open}

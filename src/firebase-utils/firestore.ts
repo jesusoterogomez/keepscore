@@ -1,4 +1,4 @@
-import firebase, { FirebaseError } from 'firebase';
+import firebase, { FirebaseError } from 'firebase/app';
 
 enum Collections {
     USERS = 'users',

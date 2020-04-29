@@ -5,7 +5,7 @@ import { Close, Add, Remove, SyncAlt, Check } from '@material-ui/icons';
 import PageContainer from 'components/PageContainer';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import firebase, { User } from 'firebase';
+import firebase, { User } from 'firebase/app';
 import UserAvatar from 'components/UserAvatar';
 import {
     Button,

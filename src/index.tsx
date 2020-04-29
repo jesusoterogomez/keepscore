@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { init } from 'firebase-utils/init';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { Router, RouteComponentProps, Redirect } from '@reach/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
